@@ -87,70 +87,70 @@ public class CaptureActivity extends AppCompatActivity implements Callback {
         btnFlash = (ImageButton) findViewById(R.id.btn_flash);
         btnFlash.setOnClickListener(flashListener);
 
-        btnAlbum = (Button) findViewById(R.id.btn_album);
-        btnAlbum.setOnClickListener(albumOnClick);
+//        btnAlbum = (Button) findViewById(R.id.btn_album);
+//        btnAlbum.setOnClickListener(albumOnClick);
 
         hasSurface = false;
         inactivityTimer = new InactivityTimer(this);
 
     }
 
-    private View.OnClickListener albumOnClick = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            //打开手机中的相册
-            Intent innerIntent = new Intent(Intent.ACTION_GET_CONTENT); //"android.intent.action.GET_CONTENT"
-            innerIntent.setType("image/*");
-            startActivityForResult(innerIntent, REQUEST_CODE_SCAN_GALLERY);
-        }
-    };
+//    private View.OnClickListener albumOnClick = new View.OnClickListener() {
+//        @Override
+//        public void onClick(View view) {
+//            //打开手机中的相册
+//            Intent innerIntent = new Intent(Intent.ACTION_GET_CONTENT); //"android.intent.action.GET_CONTENT"
+//            innerIntent.setType("image/*");
+//            startActivityForResult(innerIntent, REQUEST_CODE_SCAN_GALLERY);
+//        }
+//    };
 
-    @Override
-    protected void onActivityResult(final int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK) {
-            switch (requestCode) {
-                case REQUEST_CODE_SCAN_GALLERY:
-                    handleAlbumPic(data);
-                    break;
-            }
-        }
-        super.onActivityResult(requestCode, resultCode, data);
-    }
+//    @Override
+//    protected void onActivityResult(final int requestCode, int resultCode, Intent data) {
+//        if (resultCode == RESULT_OK) {
+//            switch (requestCode) {
+//                case REQUEST_CODE_SCAN_GALLERY:
+//                    handleAlbumPic(data);
+//                    break;
+//            }
+//        }
+//        super.onActivityResult(requestCode, resultCode, data);
+//    }
 
-    /**
-     * 处理选择的图片
-     * @param data
-     */
-    private void handleAlbumPic(Intent data) {
-        //获取选中图片的路径
-        final Uri uri = data.getData();
-
-        mProgress = new ProgressDialog(CaptureActivity.this);
-        mProgress.setMessage("正在扫描...");
-        mProgress.setCancelable(false);
-        mProgress.show();
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Result result = scanningImage(uri);
-                mProgress.dismiss();
-                if (result != null) {
-                    Intent resultIntent = new Intent();
-                    Bundle bundle = getIntent().getExtras();
-                    if (bundle == null) {
-                        bundle = new Bundle();
-                    }
-                    bundle.putString(Constant.INTENT_EXTRA_KEY_QR_SCAN, result.getText());
-
-                    resultIntent.putExtras(bundle);
-                    CaptureActivity.this.setResult(RESULT_OK, resultIntent);
-                    finish();
-                } else {
-                    Toast.makeText(CaptureActivity.this, R.string.note_identify_failed, Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-    }
+//    /**
+//     * 处理选择的图片
+//     * @param data
+//     */
+//    private void handleAlbumPic(Intent data) {
+//        //获取选中图片的路径
+//        final Uri uri = data.getData();
+//
+//        mProgress = new ProgressDialog(CaptureActivity.this);
+//        mProgress.setMessage("正在扫描...");
+//        mProgress.setCancelable(false);
+//        mProgress.show();
+//        runOnUiThread(new Runnable() {
+//            @Override
+//            public void run() {
+//                Result result = scanningImage(uri);
+//                mProgress.dismiss();
+//                if (result != null) {
+//                    Intent resultIntent = new Intent();
+//                    Bundle bundle = getIntent().getExtras();
+//                    if (bundle == null) {
+//                        bundle = new Bundle();
+//                    }
+//                    bundle.putString(Constant.INTENT_EXTRA_KEY_QR_SCAN, result.getText());
+//
+//                    resultIntent.putExtras(bundle);
+//                    CaptureActivity.this.setResult(RESULT_OK, resultIntent);
+//                    finish();
+//                } else {
+//                    Toast.makeText(CaptureActivity.this, R.string.note_identify_failed, Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        });
+//    }
 
     /**
      * 扫描二维码图片的方法
